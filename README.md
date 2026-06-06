@@ -1,4 +1,4 @@
-# Safe-solde
+# 💲afe-💲olde
 Application mobile de gestion et suivi des actions financières personnelles. 
 
 
