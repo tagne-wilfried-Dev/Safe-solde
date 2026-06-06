@@ -29,3 +29,9 @@ render.experimental.xml
 
 
 .dart_tool/
+[200~android/app/src/main/res/mipmap-hdpi/ic_launcher2.png
+android/app/src/main/res/mipmap-hdpi/ic_launcher2.png
+android/app/src/main/res/mipmap-mdpi/ic_launcher1.png
+android/app/src/main/res/mipmap-xhdpi/ic_launcher3.png
+android/app/src/main/res/mipmap-xxhdpi/ic_launcher2.png
+android/app/src/main/res/mipmap-xxxhdpi/ic_launcher1.png
