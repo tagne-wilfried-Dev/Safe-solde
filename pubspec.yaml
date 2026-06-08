@@ -28,6 +28,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  # launcher icon
+  flutter_launcher_icons: "^0.13.1"
+
   flutter:
     sdk: flutter
 
@@ -35,6 +38,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  # svg dependency
+  flutter_svg: ^2.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,6 +53,12 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+# cette partie correspond aux specifications de flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
 
 # The following section is specific to Flutter packages.
 flutter:
