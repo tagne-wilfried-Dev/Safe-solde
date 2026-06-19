@@ -1,8 +1,5 @@
-Voici un **guide pédagogique complet et structuré** sous forme de Markdown. Ce document est conçu pour être ton fil conducteur. Il ne se contente pas de te donner le code, il t'explique **le pourquoi du comment** pour que tu puisses justifier tes choix devant le jury.
 
----
-
-# 📘 Guide de Réalisation : Application $afe$olde
+# 📘 Guide de Réalisation : Application $afe $olde
 **Objectif :** Créer un gestionnaire de finances personnelles (Entrées/Sorties) avec Flutter.
 **Niveau :** Débutant $\rightarrow$ Intermédiaire.
 
@@ -22,7 +19,7 @@ Voici un **guide pédagogique complet et structuré** sous forme de Markdown. Ce
 ## 1. Architecture et Structure <a name="1-architecture-et-structure"></a>
 
 Dans Flutter, tout est **Widget**. Un Widget est un composant d'interface (un bouton, un texte, une page).
-Pour **$afe$olde**, nous allons utiliser une structure simple :
+Pour **$afe $olde**, nous allons utiliser une structure simple :
 *   `main.dart` : Point d'entrée de l'application.
 *   `models/` : Dossier pour définir la structure de nos données.
 *   `screens/` : Dossier pour nos différentes pages (Home, AddTransaction).
@@ -47,7 +44,7 @@ Avant de dessiner, on définit ce qu'est une "Transaction". On crée une **Class
 **Fichier : `lib/models/transaction.dart`**
 ```dart
 class Transaction {
-  final String id;
+  final int id;
   final String title;
   final double amount;
   final bool isIncome; // true = entrée, false = dépense
