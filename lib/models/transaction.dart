@@ -27,11 +27,11 @@ class Transaction {
   // Methode pour recreer l'objet a partir d'un Map
   factory Transaction.fromMap(Map<String, dynamic> map) {
     return Transaction(
-        id: map['id'],
-        title: map['title'],
-        amount: map['amount'],
-        isIncome: map['isIncome'],
-        date: DateTime.parse(map['date']),
+        id: map['id'] as String,
+        title: map['title'] as String,
+        amount: (map['amount'] as num).toDouble(),
+        isIncome: map['isIncome'] as bool,
+        date: DateTime.parse(map['date'] as String),
     );
   }
 }

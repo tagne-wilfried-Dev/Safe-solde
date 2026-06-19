@@ -1,16 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:safe_solde/models/transaction.dart';
+import 'package:safe_solde/screens/add_transaction_screen.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
 class HomeScreen extends StatefulWidget{
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState {
+class _HomeScreenState  extends State<HomeScreen>{
   List<Transaction> _transactions = [];
 
   @override
@@ -19,12 +23,7 @@ class _HomeScreenState {
     _loadTransactions(); // charger les transactions sauvegardees au demarrage
   }
 
-  void _addTransaction(Transaction tx) {
-    setState(() {
-      _transactions.add(tx);
-    });
-    _saveTransactions(); // sauvegarder les transactions apres l'ajout
-  }
+  
 
   double get _totalBalance {
     double total = 0;
@@ -38,14 +37,16 @@ class _HomeScreenState {
     return total;
   }
 
-  void _navigateToAddScreen() async {
+  void _navigateAdd() async {
     // on wait la transaction que AddTransactionScreen send
 
-    final result = await Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTransactionScreen()),
-    );
+    final result = await Navigator.pushNamed(context,'/add');
 
     if (result != null && result is Transaction) {
-      _addTransaction(result);
+      setState(() {
+      _transactions.add(result);
+    });
+    _saveTransactions(); // sauvegarder les transactions apres l'ajout
     }
   }
 
@@ -64,7 +65,7 @@ class _HomeScreenState {
       if (savedData != null) {
         final List<dynamic> decodedData = json.decode(savedData);
         setState(() {
-          _transactions = decodedData.map((item) => Transaction.fromMap(item)).tiList();
+          _transactions = decodedData.map((item) => Transaction.fromMap(item)).toList();
         });
       }
     }
@@ -79,7 +80,7 @@ class _HomeScreenState {
       body: Column(
         children: [
           // widget du solde
-          container(
+          Container(
             padding: EdgeInsets.all(20),
             child: Text(
               "Solde: ${_totalBalance.toStringAsFixed(0)}FCFA",
@@ -104,8 +105,9 @@ class _HomeScreenState {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _navigateToAddScreen(),
+        child: const Icon(Icons.add,color:Colors.white),
+        onPressed: () => _navigateAdd(),
+        backgroundColor: const Color.fromARGB(255, 122, 61, 3),
       ),
     );
   }
