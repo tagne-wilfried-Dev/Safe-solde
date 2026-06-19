@@ -23,6 +23,19 @@ class _HomeScreenState {
     return total;
   }
 
+  void _navigateToAddScreen() async {
+    // on wait la transaction que AddTransactionScreen send
+
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTransactionScreen()),
+    );
+
+    if (result != null && result is Transaction) {
+      setState(() {
+        _transactions.add(result); // on add a la liste et on refresh
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
