@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
@@ -10,6 +12,19 @@ class HomeScreen extends StatefulWidget{
 
 class _HomeScreenState {
   List<Transaction> _transactions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTransactions(); // charger les transactions sauvegardees au demarrage
+  }
+
+  void _addTransaction(Transaction tx) {
+    setState(() {
+      _transactions.add(tx);
+    });
+    _saveTransactions(); // sauvegarder les transactions apres l'ajout
+  }
 
   double get _totalBalance {
     double total = 0;
@@ -30,17 +45,35 @@ class _HomeScreenState {
     );
 
     if (result != null && result is Transaction) {
-      setState(() {
-        _transactions.add(result); // on add a la liste et on refresh
-      });
+      _addTransaction(result);
     }
   }
+
+  // logique de sauvegarde pour la persistance des donnees
+    Future<void> _saveTransactions() async {
+        final prefs = await SharedPreferences.getInstance();
+        // On transforme la liste d'objets en liste de maps, puis en json
+        final String encodedData = json.encode(_transactions.map((tx) => tx.toMap()).toList());
+        await prefs.setString('user_transactions', encodedData);
+    }
+
+    // chargemen au demarrage
+    Future<void> _loadTransactions() async {
+      final prefs = await SharedPreferences.getInstance();
+      final String? savedData = prefs.getString('user_transactions');
+      if (savedData != null) {
+        final List<dynamic> decodedData = json.decode(savedData);
+        setState(() {
+          _transactions = decodedData.map((item) => Transaction.fromMap(item)).tiList();
+        });
+      }
+    }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('\$afe\$olde'),
+          title: Text('\$afe💰️olde'),
           backgroundColor: Colors.green,
       ),
       body: Column(
