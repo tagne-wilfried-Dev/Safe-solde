@@ -130,34 +130,35 @@ class _HomeScreenState  extends State<HomeScreen>{
             : ListView.builder(
               itemCount: _transactions.length,
               itemBuilder: (ctx, index) {
-                final tx = _transactions[index];
-                final color = tx.isIncome ? const Color(0xFF2E7D32) : const Color(0xFFC62828);
-                // on wrap listTile dans un Dismissible pour permettre la suppression au glisser
-                return Dismissible(
-                    key: ValueKey(tx.id),
-                    direction: DismissDirection.endToStart,
-                    background: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.only(right: 20),
-                      child: const Icon(Icons.delete,color: Colors.white),
-                    ),
-                    onDismissed: (_) {
-                      setState(() {
-                        _transactions.removeAt(index);
-                      });
-                      _saveTransactions();
-                    },
+                  final tx = _transactions[index];
+                  final color = tx.isIncome ? const Color(0xFF2E7D32) : const Color(0xFFC62828);
+                  return Card(
                     child: ListTile(
-                      leading: Icon(tx.isIncome ? Icons.add_circle : Icons.remove_circle,
-                      color: tx.isIncome ? Colors.green : Colors.red),
-                      title: Text(tx.title),
-                      trailing: Text("${tx.isIncome ? '+':'-'}${tx.amount.toStringAsFixed(0)} FCFA"),
-                      subtitle:DateFormat('dd/MM/yyyy').format(tx.date),
-                )
-                );
-              },
-            ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      leading: CircleAvatar(
+                        backgroundColor: color.withOpacity(0.12),
+                        child: Icon(
+                          tx.isIncome ? Icons.arrow_downward : Icons.arrow_upward,
+                          color: color,
+                        ),
+                      ),
+                      title: Text(tx.title,
+                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      subtitle: Text(
+                        '${tx.date.day.toString().padLeft(2, '0')}/'
+                            '${tx.date.month.toString().padLeft(2, '0')}/${tx.date.year}',
+                        style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                      ),
+                      trailing: Text(
+                        '${tx.isIncome ? '+' : '-'}${tx.amount.toStringAsFixed(0)} FCFA',
+                        style: TextStyle(
+                            color: color, fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                    ),
+                  );
+                },
+
+                ),
           ),
         ],
       ),
