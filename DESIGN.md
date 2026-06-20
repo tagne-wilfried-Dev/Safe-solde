@@ -10,7 +10,7 @@ Pour chaque point : le **fichier + les lignes concernées**, le **problème visu
 
 ## 1. Thème global — fondations visuelles
 
-**Fichier :** `lib/main.dart` — lignes 18-31
+**Fichier :** `lib/main.dart` 
 
 ### Problème
 - `primarySwatch` (déprécié) coexiste avec `ColorScheme.fromSeed` → couleurs imprévisibles.
@@ -69,7 +69,7 @@ theme: ThemeData(
 
 ## 2. Écran d'accueil — la carte de solde
 
-**Fichier :** `lib/screens/home_screen.dart` — lignes 83-89 (le `Container` du solde)
+**Fichier :** `lib/screens/home_screen.dart`  (le `Container` du solde)
 
 ### Problème
 Le solde est un simple `Text` dans un `Container` sans fond : visuellement plat, peu mis en valeur, pas de couleur selon positif/négatif, pas de séparateur de milliers.
@@ -125,7 +125,7 @@ Container(
 
 ## 3. Écran d'accueil — l'AppBar
 
-**Fichier :** `lib/screens/home_screen.dart` — lignes 76-79
+**Fichier :** `lib/screens/home_screen.dart` 
 
 ### Problème
 ```dart
@@ -151,7 +151,7 @@ appBar: AppBar(
 
 ## 4. Écran d'accueil — les éléments de la liste
 
-**Fichier :** `lib/screens/home_screen.dart` — lignes 94-101 (`itemBuilder`)
+**Fichier :** `lib/screens/home_screen.dart`  (`itemBuilder`)
 
 ### Problème
 - `ListTile` nu, sans carte ni séparation → la liste paraît tassée.
@@ -198,7 +198,7 @@ itemBuilder: (ctx, index) {
 
 ## 5. Écran d'accueil — état vide
 
-**Fichier :** `lib/screens/home_screen.dart` — lignes 91-104 (le `Expanded`)
+**Fichier :** `lib/screens/home_screen.dart`  (le `Expanded`)
 
 ### Problème
 Quand il n'y a aucune transaction, l'écran affiche un grand vide blanc.
@@ -238,7 +238,7 @@ Expanded(
 
 ## 6. Écran d'accueil — le bouton flottant (FAB)
 
-**Fichier :** `lib/screens/home_screen.dart` — lignes 107-111
+**Fichier :** `lib/screens/home_screen.dart`
 
 ### Problème
 ```dart
@@ -263,7 +263,7 @@ floatingActionButton: FloatingActionButton.extended(
 
 ## 7. Écran d'ajout — espacement et structure du formulaire
 
-**Fichier :** `lib/screens/add_transaction_screen.dart` — lignes 45-65
+**Fichier :** `lib/screens/add_transaction_screen.dart` 
 
 ### Problème
 Les trois champs (`TextField`, `TextField`, `SwitchListTile`) et le bouton sont collés les uns aux autres dans une `Column` sans espacement → formulaire serré et peu aéré. Le bouton n'est pas en pleine largeur.
@@ -325,7 +325,7 @@ body: Padding(
 
 ## 8. Écran d'ajout — sélecteur Entrée / Dépense plus parlant (optionnel)
 
-**Fichier :** `lib/screens/add_transaction_screen.dart` — lignes 58-62
+**Fichier :** `lib/screens/add_transaction_screen.dart` 
 
 ### Problème
 Un `Switch` est ambigu pour choisir entre « entrée » et « dépense » (on ne sait pas quel état = quoi).
@@ -348,7 +348,7 @@ SegmentedButton<bool>(
 
 ## 9. Détail — le `SnackBar` de validation
 
-**Fichier :** `lib/screens/add_transaction_screen.dart` — lignes 22-26
+**Fichier :** `lib/screens/add_transaction_screen.dart` 
 
 ### Problème
 Le `SnackBar` d'erreur est neutre, ne ressort pas comme un avertissement.

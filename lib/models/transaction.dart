@@ -34,4 +34,13 @@ class Transaction {
         date: DateTime.parse(map['date'] as String),
     );
   }
+
+  // Egalite basee sur l'identifiant unique de la transaction.
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Transaction && other.id == id);
+
+  @override
+  int get hashCode => id.hashCode;
 }

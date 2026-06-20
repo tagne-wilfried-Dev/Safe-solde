@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/transaction.dart';
 
 class AddTransactionScreen extends StatefulWidget {
@@ -12,6 +13,13 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   bool _isIncome = true;
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _amountController.dispose();
+    super.dispose();
+  }
 
   void _submitData() {
     final enteredTitle = _titleController.text;
@@ -29,7 +37,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     //sinon on cree la transaction et on la renvoie au dashboard
     Navigator.of(context).pop(
       Transaction(
-        id: DateTime.now().toString(),
+        id: '${DateTime.now().microsecondsSinceEpoch}',
         title: enteredTitle,
         amount: enteredAmount,
         isIncome: _isIncome,
@@ -53,7 +61,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             TextField(
               controller: _amountController,
               decoration: InputDecoration(labelText: "Montant:"),
-              keyboardType: TextInputType.number,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+              ],
             ),
             SwitchListTile(
               title: Text(_isIncome ? "C'est une entree" : "c'est une depense"),

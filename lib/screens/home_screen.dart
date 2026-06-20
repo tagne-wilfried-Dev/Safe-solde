@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:safe_solde/models/transaction.dart';
-import 'package:safe_solde/screens/add_transaction_screen.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../main.dart';
 
 class HomeScreen extends StatefulWidget{
   const HomeScreen({super.key});
@@ -23,7 +20,7 @@ class _HomeScreenState  extends State<HomeScreen>{
     _loadTransactions(); // charger les transactions sauvegardees au demarrage
   }
 
-  
+
 
   double get _totalBalance {
     double total = 0;
@@ -62,11 +59,17 @@ class _HomeScreenState  extends State<HomeScreen>{
     Future<void> _loadTransactions() async {
       final prefs = await SharedPreferences.getInstance();
       final String? savedData = prefs.getString('user_transactions');
-      if (savedData != null) {
+      if (savedData == null) return;
+      try {
         final List<dynamic> decodedData = json.decode(savedData);
-        setState(() {
-          _transactions = decodedData.map((item) => Transaction.fromMap(item)).toList();
-        });
+        final loaded = decodedData
+            .map((item) => Transaction.fromMap(item as Map<String, dynamic>))
+            .toList();
+        if (!mounted) return;
+        setState(() => _transactions = loaded);
+      } catch (e) {
+        debugPrint('Données corrompues, réinitialisation : $e');
+        await prefs.remove('user_transactions'); // évite un crash en boucle
       }
     }
 
@@ -75,7 +78,6 @@ class _HomeScreenState  extends State<HomeScreen>{
     return Scaffold(
       appBar: AppBar(
           title: Text('\$afe💰️olde'),
-          backgroundColor: Colors.green,
       ),
       body: Column(
         children: [
@@ -89,18 +91,44 @@ class _HomeScreenState  extends State<HomeScreen>{
           ),
           // Liste des transactions
           Expanded(
-            child: ListView.builder(
-              itemCount: _transactions.length,
-              itemBuilder: (ctx, index) {
-                final tx = _transactions[index];
-                return ListTile(
-                  leading: Icon(tx.isIncome ? Icons.add_circle : Icons.remove_circle,
-                  color: tx.isIncome ? Colors.green : Colors.red),
-                  title: Text(tx.title),
-                  trailing: Text("${tx.amount} FCFA"),
-                );
-              },
-            ),
+            child: _transactions.isEmpty
+                ? const Center(
+                    child: Text(
+                      'Aucune opération pour le moment.\nAppuyez sur + pour commencer.',
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: _transactions.length,
+                    itemBuilder: (ctx, index) {
+                      final tx = _transactions[index];
+                      return Dismissible(
+                        key: ValueKey(tx.id),
+                        direction: DismissDirection.endToStart,
+                        background: Container(
+                          color: Colors.red,
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 20),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        onDismissed: (_) {
+                          setState(() => _transactions.removeAt(index));
+                          _saveTransactions();
+                        },
+                        child: ListTile(
+                          leading: Icon(
+                            tx.isIncome ? Icons.add_circle : Icons.remove_circle,
+                            color: tx.isIncome ? Colors.green : Colors.red,
+                          ),
+                          title: Text(tx.title),
+                          subtitle: Text(DateFormat('dd/MM/yyyy').format(tx.date)),
+                          trailing: Text(
+                            "${tx.isIncome ? '+' : '-'}${tx.amount.toStringAsFixed(0)} FCFA",
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),

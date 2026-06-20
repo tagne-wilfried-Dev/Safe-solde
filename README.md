@@ -1,6 +1,27 @@
 # 💲afe-💲olde
 Application mobile de gestion et suivi des actions financières personnelles. 
 
+## 🚀 Installation et lancement
+
+### Prérequis
+*   **Flutter SDK** avec Dart `^3.11.3` (voir la contrainte `environment.sdk` dans `pubspec.yaml`).
+*   Un émulateur Android/iOS ou un appareil physique connecté.
+
+### Commandes
+```bash
+# Récupérer les dépendances
+flutter pub get
+
+# Lancer l'application
+flutter run
+```
+
+### Vérification (analyse + tests)
+```bash
+flutter analyze
+flutter test
+```
+
 
 # CAHIER DES CHARGES : Application "$afe$olde"
 

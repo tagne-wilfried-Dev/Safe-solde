@@ -16,7 +16,6 @@ class SafeSoldeApp extends StatelessWidget {
       title: '💰️afe💲olde',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.green,
           primary: Colors.green.shade700,

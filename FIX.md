@@ -3,51 +3,6 @@
 Analyse du projet **safe_solde** (application Flutter de suivi de solde) réalisée le 2026-06-19.
 Les problèmes sont classés par gravité. Chaque entrée donne le **fichier concerné**, le **problème** et la **solution**.
 
-Environnement détecté :
-- Flutter installé : `3.24.3` (Dart `3.10.1`)
-- SDK exigé par le projet : Dart `^3.11.3`
-
----
-
-## 🔴 Bloquant (le projet ne compile pas en l'état)
-
-### 1. Contrainte de SDK incompatible — `flutter pub get` échoue
-**Fichier :** `pubspec.yaml` (ligne 22)
-
-```yaml
-environment:
-  sdk: ^3.11.3
-```
-
-Le Dart SDK installé est **3.10.1**, qui ne satisfait pas `^3.11.3`. Résultat :
-
-```
-Because safe_solde requires SDK version ^3.11.3, version solving failed.
-Failed to update packages.
-```
-
-Aucune commande (`pub get`, `analyze`, `run`, `build`, `test`) ne fonctionne tant que ce point n'est pas réglé.
-
-**Solution — deux options :**
-
-- **Option A (recommandée si on garde le Flutter actuel)** : abaisser la contrainte pour qu'elle corresponde au SDK installé :
-  ```yaml
-  environment:
-    sdk: ">=3.5.0 <4.0.0"
-  ```
-- **Option B** : mettre à jour Flutter vers une version qui embarque Dart ≥ 3.11.3 :
-  ```bash
-  flutter upgrade
-  ```
-  (Flutter suggère lui-même la version `3.44.2`.)
-
-Puis relancer :
-```bash
-flutter pub get
-```
-
----
-
 ### 2. Fichier de test cassé (template par défaut jamais adapté)
 **Fichier :** `test/widget_test.dart`
 
