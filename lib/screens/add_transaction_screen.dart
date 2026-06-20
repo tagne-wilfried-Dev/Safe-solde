@@ -28,8 +28,13 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     // cas de valeurs invalides on sort direct sans rien faire
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content:Text("Veuillez remplir correctement les champs")),
+            SnackBar(
+                content: const Text('Veuillez remplir correctement les champs'),
+                backgroundColor: Colors.red.shade700,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+            ),
         );
       return;
     }
@@ -51,27 +56,54 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("Ajout d'une Operation")),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
               controller: _titleController,
-              decoration: InputDecoration(labelText: "Titre:"),
+              textCapitalization: TextCapitalization.sentences,
+              decoration: const InputDecoration(
+                labelText: 'Titre',
+                hintText: 'Ex. Courses, Salaire…',
+                prefixIcon: Icon(Icons.edit_note),
+              ),
             ),
+            const SizedBox(height: 16),
             TextField(
               controller: _amountController,
-              decoration: InputDecoration(labelText: "Montant:"),
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
               ],
+              decoration: const InputDecoration(
+                labelText: 'Montant',
+                suffixText: 'FCFA',
+                prefixIcon: Icon(Icons.payments_outlined),
+              ),
             ),
-            SwitchListTile(
-              title: Text(_isIncome ? "C'est une entree" : "c'est une depense"),
-              value: _isIncome,
-              onChanged: (val) => setState(() => _isIncome = val),
+            const SizedBox(height: 16),
+            // Sélecteur entrée/dépense explicite (Material 3)
+            SegmentedButton<bool>(
+              segments: const [
+                ButtonSegment(
+                    value: true,
+                    label: Text('Entrée'),
+                    icon: Icon(Icons.trending_up)),
+                ButtonSegment(
+                    value: false,
+                    label: Text('Dépense'),
+                    icon: Icon(Icons.trending_down)),
+              ],
+              selected: {_isIncome},
+              onSelectionChanged: (s) => setState(() => _isIncome = s.first),
             ),
-            ElevatedButton(onPressed: _submitData, child: Text("Enregistrer✅")),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: _submitData,
+              icon: const Icon(Icons.check),
+              label: const Text('Enregistrer'),
+            ),
           ],
         ),
       ),

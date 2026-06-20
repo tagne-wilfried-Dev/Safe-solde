@@ -77,36 +77,89 @@ class _HomeScreenState  extends State<HomeScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('\$afe💰️olde'),
+          title: const Text('Safe Solde'),
       ),
       body: Column(
         children: [
-          // widget du solde
+          // carte héro du solde : point focal, couleur selon positif/négatif
           Container(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              "Solde: ${_totalBalance.toStringAsFixed(0)}FCFA",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)
+            width: double.infinity,
+            margin: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 24),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: _totalBalance >= 0
+                    ? [const Color(0xFF1C4D1E), const Color(0xFF2E7D32)]
+                    : [const Color(0xFF8E2A2A), const Color(0xFFB71C1C)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 12,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Solde actuel',
+                    style: TextStyle(color: Colors.white70, fontSize: 14)),
+                const SizedBox(height: 8),
+                Text(
+                  '${_totalBalance.toStringAsFixed(0)} FCFA',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 34,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
             ),
           ),
           // Liste des transactions
           Expanded(
             child: _transactions.isEmpty
-                ? const Center(
-                    child: Text(
-                      'Aucune opération pour le moment.\nAppuyez sur + pour commencer.',
-                      textAlign: TextAlign.center,
+                ? Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.account_balance_wallet_outlined,
+                            size: 72, color: Colors.grey.shade400),
+                        const SizedBox(height: 16),
+                        Text('Aucune opération',
+                            style: TextStyle(
+                                fontSize: 18, color: Colors.grey.shade600)),
+                        const SizedBox(height: 4),
+                        Text(
+                            'Appuyez sur + pour ajouter une entrée ou une dépense',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.grey.shade500)),
+                      ],
                     ),
                   )
                 : ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 80), // évite que le FAB masque le dernier item
                     itemCount: _transactions.length,
                     itemBuilder: (ctx, index) {
                       final tx = _transactions[index];
+                      final color = tx.isIncome
+                          ? const Color(0xFF2E7D32)
+                          : const Color(0xFFC62828);
                       return Dismissible(
                         key: ValueKey(tx.id),
                         direction: DismissDirection.endToStart,
                         background: Container(
-                          color: Colors.red,
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.only(right: 20),
                           child: const Icon(Icons.delete, color: Colors.white),
@@ -115,15 +168,34 @@ class _HomeScreenState  extends State<HomeScreen>{
                           setState(() => _transactions.removeAt(index));
                           _saveTransactions();
                         },
-                        child: ListTile(
-                          leading: Icon(
-                            tx.isIncome ? Icons.add_circle : Icons.remove_circle,
-                            color: tx.isIncome ? Colors.green : Colors.red,
-                          ),
-                          title: Text(tx.title),
-                          subtitle: Text(DateFormat('dd/MM/yyyy').format(tx.date)),
-                          trailing: Text(
-                            "${tx.isIncome ? '+' : '-'}${tx.amount.toStringAsFixed(0)} FCFA",
+                        child: Card(
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 6),
+                            leading: CircleAvatar(
+                              backgroundColor: color.withOpacity(0.12),
+                              child: Icon(
+                                tx.isIncome
+                                    ? Icons.arrow_downward
+                                    : Icons.arrow_upward,
+                                color: color,
+                              ),
+                            ),
+                            title: Text(tx.title,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600)),
+                            subtitle: Text(
+                              DateFormat('dd/MM/yyyy').format(tx.date),
+                              style: TextStyle(
+                                  color: Colors.grey.shade600, fontSize: 12),
+                            ),
+                            trailing: Text(
+                              "${tx.isIncome ? '+' : '-'}${tx.amount.toStringAsFixed(0)} FCFA",
+                              style: TextStyle(
+                                  color: color,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
                           ),
                         ),
                       );
@@ -132,10 +204,12 @@ class _HomeScreenState  extends State<HomeScreen>{
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add,color:Colors.white),
-        onPressed: () => _navigateAdd(),
-        backgroundColor: const Color.fromARGB(255, 122, 61, 3),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _navigateAdd,
+        backgroundColor: const Color(0xFF1C4D1E),
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.add),
+        label: const Text('Ajouter'),
       ),
     );
   }

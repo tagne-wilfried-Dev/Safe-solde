@@ -281,3 +281,6 @@ Si le jury te demande comment tu as travaillé, réponds ceci :
 > *"J'ai adopté une approche itérative. J'ai d'abord défini un **modèle de données** robuste pour les transactions, puis j'ai construit l'**interface utilisateur** en utilisant des widgets de base. J'ai géré l'état de l'application avec `setState` pour une réactivité immédiate et j'ai implémenté la **persistance locale** via `shared_preferences` et la sérialisation JSON pour garantir que les données de l'utilisateur soient conservées."*
 
 **Bon courage ! Tu as maintenant tout le plan. À toi de coder ! 🚀**
+
+
+claude --resume d2e1d7b8-bd02-42e7-b6ad-11e08e0f32af
