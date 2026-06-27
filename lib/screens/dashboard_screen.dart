@@ -7,6 +7,7 @@ import 'add_transaction_screen.dart';
 import 'history_screen.dart';
 import 'splash_screen.dart';
 import 'conseils_screen.dart';
+import 'creances_screen.dart';
 class DashboardScreen extends StatefulWidget {
   final String profil;
   const DashboardScreen({super.key, required this.profil});
@@ -105,6 +106,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           final prefs = await SharedPreferences.getInstance();
                           await prefs.remove('profil');
                           await prefs.remove('nom');
+                          await prefs.remove('transactions');
+                          await prefs.remove('creances');
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (_) => const SplashScreen()),
@@ -254,6 +257,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       icon: const Icon(Icons.lightbulb, color: Color(0xFF2E7D32)),
                       label: const Text('Conseils & Astuces',
+                          style: TextStyle(color: Color(0xFF2E7D32))),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        side: const BorderSide(color: Color(0xFF2E7D32)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CreancesScreen()),
+                      ),
+                      icon: const Icon(Icons.account_balance_wallet, color: Color(0xFF2E7D32)),
+                      label: const Text('Dettes & Prêts',
                           style: TextStyle(color: Color(0xFF2E7D32))),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 14),

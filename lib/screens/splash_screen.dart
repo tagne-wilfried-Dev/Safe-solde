@@ -35,6 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
     final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('transactions');
+    await prefs.remove('creances');
     await prefs.setString('profil', _profilSelectionne!);
     await prefs.setString('nom', _nomController.text.trim());
 
