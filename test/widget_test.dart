@@ -18,7 +18,7 @@ void main() {
     await tester.pumpWidget(const SafeSoldeApp());
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('Solde'), findsOneWidget);
+    expect(find.text('Solde actuel'), findsOneWidget);
     expect(find.byIcon(Icons.add), findsOneWidget); // le FAB
   });
 }

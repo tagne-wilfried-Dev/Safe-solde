@@ -29,7 +29,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content: const Text('Veuillez remplir correctement les champs'),
+                content: const Text('Certains champs sont vides ou mal remplis'),
                 backgroundColor: Colors.red.shade700,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(
@@ -65,7 +65,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               textCapitalization: TextCapitalization.sentences,
               decoration: const InputDecoration(
                 labelText: 'Titre',
-                hintText: 'Ex. Courses, Salaire…',
+                hintText: 'Salaire; Loyer…',
                 prefixIcon: Icon(Icons.edit_note),
               ),
             ),

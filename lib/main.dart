@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/add_transaction_screen.dart';
+import 'screens/add_debt_screen.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class SafeSoldeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '💰️afe💲olde',
+      title: '💲afe💲olde',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -64,6 +65,7 @@ class SafeSoldeApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         '/add': (context) => const AddTransactionScreen(),
+        '/add-debt': (context) => const AddDebtScreen(),
       },
     );
   }
